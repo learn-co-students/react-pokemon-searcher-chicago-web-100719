@@ -6,9 +6,15 @@ class PokemonCollection extends React.Component {
   render() {
     return (
       <Card.Group itemsPerRow={6}>
-        <h1>Hello From Pokemon Collection</h1>
+        {this.listPokemon()}
       </Card.Group>
     )
+  }
+
+  listPokemon = () => {
+    return this.props.pokemon.map(poke => {
+      return <PokemonCard {...poke} key={poke.id}/>
+    })
   }
 }
 
