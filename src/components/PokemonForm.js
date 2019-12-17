@@ -11,6 +11,33 @@ class PokemonForm extends React.Component {
       frontUrl: '',
       backUrl: ''
     }
+  } 
+  
+  onChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault()
+
+    const reqObj = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: this.state.name,
+        hp: this.state.hp,
+        frontUrl: this.state.frontUrl,
+        backUrl: this.state.backUrl
+      })
+    }
+
+    fetch('http://localhost:3000/pokemon', reqObj)
+    .then(resp => resp.json())
+    .then(pokemonData => this.props.addPokemon(pokemonData))
   }
 
   render() {
@@ -18,7 +45,7 @@ class PokemonForm extends React.Component {
       <div>
         <h3>Add a Pokemon!</h3>
         <Form onSubmit={this.handleSubmit}>
-          <Form.Group widths="equal">
+          <Form.Group widths="equal" onChange={this.onChange}>
             <Form.Input fluid label="Name" placeholder="Name" name="name" />
             <Form.Input fluid label="hp" placeholder="hp" name="hp" />
             <Form.Input fluid label="Front Image URL" placeholder="url" name="frontUrl" />
